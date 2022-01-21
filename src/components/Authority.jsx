@@ -1,16 +1,11 @@
 import { createBrowserHistory } from 'history';
 import React from 'react'
-import useStore from '../store';
+import cache from '../utils/cache';
 const Authority = ({ children }) => {
-
   const history = createBrowserHistory();
-
-  const test = useStore(state => state.test)
-  console.log(test);
-  if (!sessionStorage.getItem('token')) {
+  if (!cache.getVal('token')) {
     history.push('/login');
   }
   return <>{children}</>;
 };
-
 export default Authority;

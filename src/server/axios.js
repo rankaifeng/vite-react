@@ -34,9 +34,9 @@ let httpCode = {
   504: '网关超时'
 }
 instance.interceptors.response.use(response => {
-  const { statusText, data } = response;
+  const { statusText, status } = response;
   if (statusText === 'OK') {
-    if (data.code === 200) {
+    if (status === 200) {
       return Promise.resolve(response.data);
     }
     let tips = httpCode[data.code];
@@ -47,12 +47,10 @@ instance.interceptors.response.use(response => {
     return Promise.reject(response.data.message);
   }
 }, error => {
-  console.log(error);
   if (error.response) {
     if (error.response.status === 401) {
       message.error(error.response.data.error.user_authentication[0]);
       return;
-      // this.props.history.push('/');
     }
     let tips = error.response.status in httpCode ? httpCode[error.response.status]
       : error.response.data.message;
