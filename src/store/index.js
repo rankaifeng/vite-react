@@ -1,6 +1,6 @@
 import create from 'zustand'
-import { userLogin } from '../api/globApi';
-import cache from '../utils/cache'
+import { userLogin } from '@/api/globApi';
+import cache from '@/utils/cache'
 const useStore = create(set => ({
     isToken: null,
     loading: false,
@@ -12,7 +12,5 @@ const useStore = create(set => ({
     },
     setLoading: val => set({ loading: val }),
 }))
-
-
 export default useStore;
 

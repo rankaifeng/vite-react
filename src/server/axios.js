@@ -1,12 +1,8 @@
 import { message } from 'antd';
 import axios from 'axios'
-import { TIMEOUT } from './config';
-
-// const HEADER_CHART = 'application/json; charset=utf-8';
 
 const instance = axios.create({
   timeout: 30000,
-  // baseURL: BASE_URL
 })
 
 // instance.defaults.headers['Access-Control-Allow-Origin'] = "*"
