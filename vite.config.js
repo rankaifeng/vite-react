@@ -11,6 +11,7 @@ const base = config[env]
 const themeVariables = lessToJS(
   fs.readFileSync(path.resolve(__dirname, './config/variables.less'), 'utf8')
 )
+// import 'antd/dist/antd.less';
 export default defineConfig({
   base: base.cdn,
   plugins: [
@@ -20,7 +21,7 @@ export default defineConfig({
       libList: [
         {
           libName: "antd",
-          style: name => `antd/lib/${name}/style/index.less`
+          style: _ => `antd/dist/antd.less`
         }
       ]
     })

@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import axios from 'axios'
-
+import cache from '../utils/cache'
 const instance = axios.create({
   timeout: 30000,
 })
@@ -11,8 +11,8 @@ const instance = axios.create({
 instance.interceptors.request.use(config => {
   const { headers } = config;
   headers['Access-Control-Allow-Origin'] = "*"
-  headers['Authorization'] = '';
-  headers['Content-Type'] = 'application/json; charset=utf-8';
+  headers['Authorization'] = cache.getVal('token') || "";
+  headers['Accept'] = 'application/json; charset=utf-8';
   return config;
 }, error => {
   return Promise.reject(error);

@@ -4,6 +4,7 @@ const MODE = import.meta.env.MODE // 环境变量
 const http = ({ url = '', method, params = {} }) => {
   return new Promise((resolve, reject) => {
     let base = config[MODE]
+    console.log(params);
     instance({
       method,
       baseURL: base.apiBaseUrl,
@@ -20,10 +21,11 @@ const http = ({ url = '', method, params = {} }) => {
   })
 }
 
-export const get = url => {
+export const get = (url, params) => {
   return http({
     url,
-    method: "GET"
+    method: "GET",
+    params
   })
 }
 
