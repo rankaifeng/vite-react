@@ -1,28 +1,8 @@
-import React from 'react'
-import { useAntdTable } from 'ahooks'
-import { deviceList } from '@/api/globApi'
-import { Button, Form, Input, Table, Row, Col } from 'antd'
+import { Button } from 'antd'
+import React, { useRef } from 'react'
+import TableData from '../../components/TableData'
+import { deviceList } from '../../api/globApi'
 const Home = () => {
-    const [form] = Form.useForm();
-    const getTableData = ({ current, pageSize }, formData) => {
-        let data = {
-            page: current,
-            per: pageSize,
-        }
-        Object.entries(formData).forEach(([key, value]) => {
-            if (value) {
-                data = {
-                    ...data,
-                    "q[name_cont]": value
-                }
-            }
-        });
-        return deviceList(data)
-            .then(res => ({
-                total: res.total,
-                list: res.rows
-            }))
-    }
 
     const columns = [
         {
@@ -40,38 +20,14 @@ const Home = () => {
         {
             title: '设备类型',
             dataIndex: 'devicetype_name',
-        },
+        }
     ];
 
-    const { tableProps, search } = useAntdTable(getTableData, {
-        form,
-        current: 1,
-        pageSize: 10
-    });
 
-    const { submit, reset } = search;
     return (
-        <div>
-            <Form form={form}>
-                <Row gutter={24}>
-                    <Col span={8}>
-                        <Form.Item label="设备名" name="name_cont">
-                            <Input placeholder="设备名称" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                        <Button type="primary" onClick={submit}>搜索</Button>
-                        <Button style={{ marginLeft: 16 }} onClick={reset}>重置 </Button>
-                    </Col>
-                </Row>
-            </Form>
-            <Table
-                rowKey={r => r.id}
-                columns={columns}
-                {...tableProps}
-            />
-        </div>
-
+        <TableData
+            getTableList={deviceList}
+            columns={columns} />
     )
 }
 export default Home
