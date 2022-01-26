@@ -1,20 +1,22 @@
-import React, { useImperativeHandle, useState } from 'react'
+import React, { useState } from 'react'
 import { useAntdTable } from 'ahooks'
-import { Button, Form, Input, Table, Row, Col, Modal, message } from 'antd'
+import { Button, Form, Table, Modal, message } from 'antd'
 import UnitEdit from './editModal/UnitEdit'
+import HeaderSearch from './HeaderSearch'
 const TableData = ({
     columns,//表头
     getTableList,//请求表格数据方法
     title,//新增 编辑弹窗标题
-    tag,
-    addData,
-    delData
+    tag, //区分编辑新建的弹窗
+    addData,//新建
+    delData,//删除
+    headerFrom,//表头搜索数据源
+    isHeader,//是否需要表头搜索
+    isAddBtn//是否需要新建按钮
 }) => {
     const [form] = Form.useForm();
     const [editData, setEditData] = useState(undefined)
     const [modalTitle, setModalTitle] = useState("")
-
-
     const [newColumns, _] = useState(() => {
         columns.push({
             title: "操作",
@@ -68,7 +70,7 @@ const TableData = ({
     const { submit, reset } = search;
 
 
-    const handleAddData = data => {
+    const handleAddData = () => {
         setModalTitle("新增");
         setEditData({});
     }
@@ -88,20 +90,14 @@ const TableData = ({
     }
     return (
         <div style={{ background: 'white' }}>
-            <Form form={form}>
-                <Row gutter={24}>
-                    <Col span={8}>
-                        <Form.Item label="设备名" name="name_cont">
-                            <Input placeholder="设备名称" />
-                        </Form.Item>
-                    </Col>
-                    <Col span={8}>
-                        <Button type="primary" onClick={submit}>搜索</Button>
-                        <Button style={{ marginLeft: 16 }} onClick={reset}>重置 </Button>
-                    </Col>
-                </Row>
-            </Form>
-            <Button type="primary" onClick={handleAddData}>新建</Button>
+            {isHeader &&
+                <HeaderSearch
+                    form={form}
+                    headerFrom={headerFrom}
+                    formSubmit={submit}
+                    formClear={reset} />
+            }
+            {isAddBtn && <Button type="primary" onClick={handleAddData}>新建</Button>}
             <Table
                 rowKey={r => r.id}
                 columns={newColumns}

@@ -1,11 +1,19 @@
-import { Button, Form, Input } from 'antd'
-
-const UnitEdit = ({ submitAddForm, editData }) => {
-
+/*
+ * @Author: your name
+ * @Date: 2022-01-25 13:48:13
+ * @LastEditTime: 2022-01-26 10:46:24
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \react-vite\src\components\editModal\UnitEdit.jsx
+ */
+import { Form, Button, Input } from 'antd';
+const UnitEdit = ({
+    submitAddForm,
+    editData,
+}) => {
     const submitForm = value => {
         submitAddForm(value)
     }
-    console.log(editData);
     const formItemLayout = {
         labelCol: { span: 4 },
         wrapperCol: { span: 15 }
@@ -13,7 +21,6 @@ const UnitEdit = ({ submitAddForm, editData }) => {
     const formTailLayout = {
         wrapperCol: { offset: 8 }
     };
-
     return <Form onFinish={submitForm}>
         <Form.Item
             label="名称"

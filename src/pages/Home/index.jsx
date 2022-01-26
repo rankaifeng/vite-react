@@ -1,5 +1,4 @@
-import { Button } from 'antd'
-import React, { useRef } from 'react'
+import React from 'react'
 import TableData from '../../components/TableData'
 import { deviceList } from '../../api/globApi'
 const Home = () => {
@@ -22,10 +21,19 @@ const Home = () => {
             dataIndex: 'devicetype_name',
         }
     ];
-
+    const headerFrom = [
+        {
+            name: "设备名称",
+            parameter: "name",
+            type: "INPUT",
+        },
+    ]
 
     return (
         <TableData
+            headerFrom={headerFrom}
+            isHeader={true}
+            isAddBtn={true}
             getTableList={deviceList}
             columns={columns} />
     )
