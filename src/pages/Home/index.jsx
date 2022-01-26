@@ -1,8 +1,8 @@
 import React from 'react'
 import TableData from '../../components/TableData'
-import { deviceList } from '../../api/globApi'
+import { URL_ARRAY } from '@/api/globApi'
 const Home = () => {
-
+    const url = URL_ARRAY["ACTION_DEVICE"]
     const columns = [
         {
             title: '设备名',
@@ -33,8 +33,8 @@ const Home = () => {
         <TableData
             headerFrom={headerFrom}
             isHeader={true}
-            isAddBtn={true}
-            getTableList={deviceList}
+            url={url}
+            isAddBtn={false}
             columns={columns} />
     )
 }

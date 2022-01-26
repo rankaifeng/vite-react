@@ -32,13 +32,14 @@ const BasicLayout = (props) => {
           {/* <span className="loginUser">{name}</span> */}
         </Header>
         <Content style={{ margin: '0 16px' }}>
-          <Breadcrumb style={{ margin: '16px 0' }}>
-            {
-              getBreadItem(breadList)
-            }
-          </Breadcrumb>
+          <div style={{ display: 'flex', alignItems: 'center' }}>
+            当前位置：<Breadcrumb style={{ margin: '16px 0' }}>
+              {getBreadItem(breadList)}
+            </Breadcrumb>
+          </div>
+
           <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            <Content style={{ height: 'calc(100vh - 60px)' }}>
+            <Content style={{ height: 'calc(100vh - 250px)' }}>
               {renderRoutes(props.route.routes)}
             </Content>
           </div>

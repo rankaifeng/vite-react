@@ -53,7 +53,7 @@ const HeaderSearch = ({
               name={parameter}>
               <Select
                 mode={mode}
-                style={{width:'160px'}}
+                style={{width:'180px'}}
                 placeholder={name}
                 filterOption={(input, option) =>
                   option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
@@ -77,14 +77,14 @@ const HeaderSearch = ({
           formItemList.push(TIME);
         } else if (type === 'INPUT') {
           const INPUT = (
-            <Col span={4} key={name || ""}>
+            <Col span={3} key={name || ""}>
               <Form.Item
                 name={parameter}>
-                <Input placeholder={name} />
+                <Input placeholder={name} style={{width:'180px'}}/>
               </Form.Item>
             </Col>
           );
-          formItemList.push(INPUT);
+          formItemList.push(INPUT); 
         } else if (type === 'TREE') {
           const TREE = (
             <Form.Item

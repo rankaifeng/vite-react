@@ -1,12 +1,12 @@
 import AsyncComponent from '../components/asyncComponent'
-const OrderList = AsyncComponent(() => import('../pages/OrderList'))
-const Home = AsyncComponent(() => import('../pages/Home'))
-const Login = AsyncComponent(() => import('../pages/Login'))
-const NotFound = AsyncComponent(() => import('../pages/NotFound'))
-const MenuLayout = AsyncComponent(() => import('../layouts/MenuLayout'))
-const BasicLayout = AsyncComponent(() => import('../layouts/BasicLayout'))
-const ThirdLevelComponent = AsyncComponent(() => import('../pages/ThirdLevelComponent'))
-const ReturnGoods = AsyncComponent(() => import('../pages/ReturnGoods'))
+import OrderList from '../pages/OrderList'
+import Home from '../pages/Home'
+import Login from '../pages/Login'
+import NotFound from '../pages/NotFound'
+import MenuLayout from '../layouts/MenuLayout'
+import BasicLayout from '../layouts/BasicLayout'
+import ThirdLevelComponent from '../pages/ThirdLevelComponent'
+import ReturnGoods from '../pages/ReturnGoods'
 const routes = [
     {
         path: '/login',

@@ -1,45 +1,37 @@
-import React, { useState } from 'react'
+/*
+ * @Author: your name
+ * @Date: 2022-01-25 09:28:06
+ * @LastEditTime: 2022-01-26 14:25:38
+ * @LastEditors: Please set LastEditors
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \react-vite\src\components\TableData.jsx
+ */
+import React, { useEffect } from 'react'
 import { useAntdTable } from 'ahooks'
-import { Button, Form, Table, Modal, message } from 'antd'
+import { Button, Form, Table, Modal, Empty } from 'antd'
+import { PlusOutlined } from '@ant-design/icons';
 import UnitEdit from './editModal/UnitEdit'
 import HeaderSearch from './HeaderSearch'
+import useStore from '../store'
+import "@/style/table.less"
 const TableData = ({
-    columns,//表头
-    getTableList,//请求表格数据方法
-    title,//新增 编辑弹窗标题
-    tag, //区分编辑新建的弹窗
-    addData,//新建
-    delData,//删除
-    headerFrom,//表头搜索数据源
-    isHeader,//是否需要表头搜索
-    isAddBtn//是否需要新建按钮
+    columns,
+    title,
+    tag,
+    url,
+    headerFrom,
+    isHeader,
+    isAddBtn
 }) => {
     const [form] = Form.useForm();
-    const [editData, setEditData] = useState(undefined)
-    const [modalTitle, setModalTitle] = useState("")
-    const [newColumns, _] = useState(() => {
-        columns.push({
-            title: "操作",
-            render: r => {
-                return <div>
-                    <Button
-                        onClick={() => {
-                            setEditData(r)
-                        }}>编辑</Button>
-                    <Button
-                        onClick={() => {
-                            delData(r.id).then(res => {
-                                message.success(res.message)
-                                reset();
-                            })
-                        }}>删除</Button>
-                </div>
-            }
-        })
-
-        return columns
-
-    })
+    const {
+        editData,
+        setEditData,
+        modalTitle,
+        submitData,
+        getList,
+        setReloadData
+    } = useStore(state => ({ ...state }))
     //获取useAntdTable的表格参数
     const getTableData = ({ current, pageSize }, formData) => {
         let data = {
@@ -55,12 +47,7 @@ const TableData = ({
                     }
                 }
             });
-        return getTableList(data).then(res => {
-            return ({
-                total: res.total,
-                list: res.rows
-            })
-        })
+        return getList(url, data)
     }
     const { tableProps, search } = useAntdTable(getTableData, {
         form,
@@ -68,24 +55,17 @@ const TableData = ({
         pageSize: 10
     });
     const { submit, reset } = search;
-
-
-    const handleAddData = () => {
-        setModalTitle("新增");
-        setEditData({});
-    }
-
-    const submitAddForm = value => {
-        addData(value, editData)
-            .then(res => {
-                message.success(res.message)
-                setEditData(undefined)
-                reset();
-            })
-    }
+    const { dataSource } = tableProps;
+    useEffect(() => {
+        if (reset) {
+            setReloadData(reset)
+        }
+    }, [reset])
     const ReturnModalEmt = () => {
         if (tag === '单位') {
-            return <UnitEdit submitAddForm={submitAddForm} editData={editData} />
+            return <UnitEdit submitAddForm={value => submitData(url, value)} editData={editData} />
+        }else{
+            return <div>nothing</div>
         }
     }
     return (
@@ -97,12 +77,25 @@ const TableData = ({
                     formSubmit={submit}
                     formClear={reset} />
             }
-            {isAddBtn && <Button type="primary" onClick={handleAddData}>新建</Button>}
-            <Table
-                rowKey={r => r.id}
-                columns={newColumns}
-                {...tableProps} />
-
+            {isAddBtn && <Button type="primary" icon={<PlusOutlined />} onClick={() => setEditData({})}>新建</Button>}
+            {
+                dataSource.length ?
+                    <Table
+                        rowClassName={(record, index) => {
+                            let className = index % 2 ? 'shallow_gray' : 'deep_gray';
+                            return className
+                        }}
+                        bordered
+                        style={{ marginTop: '10px' }}
+                        rowKey={r => r.id}
+                        columns={columns}
+                        {...tableProps} />
+                    : <Empty
+                        imageStyle={{ height: 60 }}
+                        description={<span>暂无数据</span>}>
+                        <Button type="primary" onClick={() => reset()}>重新加载</Button>
+                    </Empty>
+            }
             {editData &&
                 <Modal
                     footer={null}

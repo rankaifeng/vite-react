@@ -37,7 +37,7 @@ export const getBreadItem = (list) => {
     const arr = [];
     function getItem(allList) {
         allList.forEach((item, index) => {
-          
+
             if (item.routes && item.routes.length > 0) {
                 arr.push(
                     <Breadcrumb.Item key={index}>
