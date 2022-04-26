@@ -1,6 +1,15 @@
+/*
+ * @Author: your name
+ * @Date: 2022-04-25 09:58:03
+ * @LastEditTime: 2022-04-25 15:35:41
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: \todo-tse:\react-demo\vite-react\src\server\axios.js
+ */
 import { message } from 'antd';
 import axios from 'axios'
 import cache from '../utils/cache'
+import loadingStore from '../store/loadingStore';
 const instance = axios.create({
   timeout: 30000,
 })

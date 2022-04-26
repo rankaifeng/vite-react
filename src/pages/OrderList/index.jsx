@@ -1,7 +1,7 @@
 /*
  * @Author: your name
  * @Date: 2022-01-19 15:19:39
- * @LastEditTime: 2022-01-26 13:37:48
+ * @LastEditTime: 2022-04-25 10:57:34
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \react-vite\src\pages\OrderList\index.jsx
@@ -9,11 +9,11 @@
 import React from 'react'
 import { Button } from 'antd'
 import TableData from '../../components/TableData'
-import useStore from '../../store'
+import axiosDataStore from '@/store/axiosDataStore'
 import { URL_ARRAY } from '@/api/globApi'
 const OrderList = () => {
     const url = URL_ARRAY["ACTION_CONSTRUCTION"];
-    const { setEditData, deleteData } = useStore(state => ({ ...state }))
+    const { setEditData, deleteData } = axiosDataStore(state => ({ ...state }))
     const columns = [
         {
             title: '名称',

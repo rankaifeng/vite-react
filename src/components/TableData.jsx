@@ -1,18 +1,19 @@
 /*
  * @Author: your name
  * @Date: 2022-01-25 09:28:06
- * @LastEditTime: 2022-01-26 14:25:38
+ * @LastEditTime: 2022-04-25 15:41:37
  * @LastEditors: Please set LastEditors
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: \react-vite\src\components\TableData.jsx
  */
 import React, { useEffect } from 'react'
 import { useAntdTable } from 'ahooks'
-import { Button, Form, Table, Modal, Empty } from 'antd'
+import { Button, Form, Table, Modal, Empty, Spin } from 'antd'
 import { PlusOutlined } from '@ant-design/icons';
 import UnitEdit from './editModal/UnitEdit'
 import HeaderSearch from './HeaderSearch'
-import useStore from '../store'
+import axiosDataStore from '@/store/axiosDataStore';
+import loadingStore from '../store/loadingStore';
 import "@/style/table.less"
 const TableData = ({
     columns,
@@ -30,8 +31,9 @@ const TableData = ({
         modalTitle,
         submitData,
         getList,
-        setReloadData
-    } = useStore(state => ({ ...state }))
+        setReloadData,
+    } = axiosDataStore(state => ({ ...state }))
+    const { loading } = loadingStore(state => ({ ...state }))
     //获取useAntdTable的表格参数
     const getTableData = ({ current, pageSize }, formData) => {
         let data = {
@@ -64,10 +66,16 @@ const TableData = ({
     const ReturnModalEmt = () => {
         if (tag === '单位') {
             return <UnitEdit submitAddForm={value => submitData(url, value)} editData={editData} />
-        }else{
+        } else {
             return <div>nothing</div>
         }
     }
+    const styleObj = {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        fontSize: "40px"
+    };
     return (
         <div style={{ background: 'white' }}>
             {isHeader &&
@@ -79,22 +87,25 @@ const TableData = ({
             }
             {isAddBtn && <Button type="primary" icon={<PlusOutlined />} onClick={() => setEditData({})}>新建</Button>}
             {
-                dataSource.length ?
-                    <Table
-                        rowClassName={(record, index) => {
-                            let className = index % 2 ? 'shallow_gray' : 'deep_gray';
-                            return className
-                        }}
-                        bordered
-                        style={{ marginTop: '10px' }}
-                        rowKey={r => r.id}
-                        columns={columns}
-                        {...tableProps} />
-                    : <Empty
-                        imageStyle={{ height: 60 }}
-                        description={<span>暂无数据</span>}>
-                        <Button type="primary" onClick={() => reset()}>重新加载</Button>
-                    </Empty>
+                !loading ?
+                    dataSource.length ?
+                        <Table
+                            rowClassName={(record, index) => {
+                                let className = index % 2 ? 'shallow_gray' : 'deep_gray';
+                                return className
+                            }}
+                            bordered
+                            style={{ marginTop: '10px' }}
+                            rowKey={r => r.id}
+                            columns={columns}
+                            {...tableProps} />
+                        : <Empty
+                            imageStyle={{ height: 60 }}
+                            description={<span>暂无数据</span>}>
+                            <Button type="primary" onClick={() => reset()}>重新加载</Button>
+                        </Empty> : <div style={styleObj}>
+                        <Spin tip="加载中..." />
+                    </div>
             }
             {editData &&
                 <Modal

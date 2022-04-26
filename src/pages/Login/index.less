@@ -1,45 +1,110 @@
-.wrapper_login{
-    width:100%;
-    height:100vh;
-    background:#2d3a4b;
-    .login-form-login {
-        width: 400px;
-        .login-title{
-            font-size: 26px;
-            color: #eee;
-            margin: 0 auto 40px auto;
-            text-align: center;
-            font-weight: 700;
+/**公共的背景图片**/
+.bg_img(@url) {
+    background-image: url(@url);
+    background-repeat: no-repeat;
+    background-size: cover;
+    overflow: auto;
+    width: 100%;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+}
+
+.wrapper-login {
+    height: 100vh;
+    .bg_img('../../imgs/bg.png');
+
+    .login-header {
+        display: flex;
+        height: 100px;
+        .bg_img('../../imgs/logo_bg.png');
+        font-size: 40px;
+        color: white;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        letter-spacing: 10px;
+    }
+
+    .login-main {
+        margin: 100px 0 0;
+        display: flex;
+
+        .bg-left {
+            width: 729px;
+            height: 400px;
+            margin-left: 300px;
+            float: left;
+            background: url(../../imgs/bg_left.png) no-repeat;
         }
-        .login-form-button {
-            width: 100%;
-            height:40px;
-        }
-        #normal_login_username{
-            background: transparent;
-            border: 1px solid hsla(0,0%,100%,.1);
-            color: #fff;
-        }
-        #normal_login_password{
-            background: transparent;
-            border: 1px solid hsla(0,0%,100%,.1);
-            color: #fff;
-        }
-        #normal_login_password::placeholder{
-            color:#889aa4;
-        }
-        #normal_login_username::placeholder{
-            color:#889aa4;
-        }
-        .ant-input-affix-wrapper{
-            height:46px;
-        }
-        i{
-            color: #889aa4;
-        }
-        .loginTip{
-            color:#fff;
+
+        .bg-right {
+            width: 404px;
+            height: 355px;
+            margin-left: 143px;
+            margin-top: 40px;
+            background-image: url('../../imgs//logln_bg.png');
+
+            .login-title {
+                width: 100%;
+                color: white;
+                height: 80px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 25px;
+                letter-spacing: 10px;
+            }
+
+            .login-s {
+                .ant-form-item-control-input {
+                    min-height: 30px !important;
+                }
+            }
+
+            .login-n {
+                .ant-form-item-control-input {
+                    min-height: 60px !important;
+                }
+            }
+
+            .login-cont {
+                margin: 0 2rem;
+
+                .ant-input-affix-wrapper {
+                    padding: 10px 11px !important;
+                }
+
+                .ant-btn-block {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                }
+
+                .anticon {
+                    // border-right: 1px solid #e3d1d1;
+                    margin: 0 5px;
+                }
+
+                .anticon svg {
+                    width: 25px;
+                    height: 25px;
+                }
+
+                .login-code {
+
+                    display: flex;
+
+                    .code-img {
+                        width: 100%;
+                        background: white;
+                        height: 47px;
+                        border-radius: 3px;
+                        margin-left: 10px;
+                    }
+                }
+
+            }
         }
     }
-    
+
 }
