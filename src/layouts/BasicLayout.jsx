@@ -12,6 +12,9 @@ const BasicLayout = (props) => {
   const path = props.location.pathname
   const defaultOpenKeys = filterRoutes(path)
   const breadList = recursionRouterTwo(defaultOpenKeys, meunList)
+  console.log(breadList);
+  console.log(meunList);
+  console.log(defaultOpenKeys);
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider>
@@ -38,10 +41,10 @@ const BasicLayout = (props) => {
             </Breadcrumb>
           </div>
 
-          <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
-            <Content style={{ height: 'calc(100vh - 250px)' }}>
+          <div style={{ background: '#fff',height:'90%',padding:'5px'}}>
+           
               {renderRoutes(props.route.routes)}
-            </Content>
+           
           </div>
         </Content>
       </Layout>

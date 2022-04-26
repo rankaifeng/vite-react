@@ -1,7 +1,9 @@
 import React from 'react'
 import TableData from '../../components/TableData'
 import { URL_ARRAY } from '@/api/globApi'
+import MapView from './MapView'
 const Home = () => {
+    localStorage.setItem("wurl", "http://192.168.100.120:8686/map");
     const url = URL_ARRAY["ACTION_DEVICE"]
     const columns = [
         {
@@ -30,12 +32,7 @@ const Home = () => {
     ]
 
     return (
-        <TableData
-            headerFrom={headerFrom}
-            isHeader={true}
-            url={url}
-            isAddBtn={false}
-            columns={columns} />
+        <MapView />
     )
 }
 export default Home

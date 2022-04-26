@@ -14,39 +14,39 @@ const routes = [
         title: '用户路由',
     },
     {
-        path: '/sys',
+        // path: '/sys',
         component: BasicLayout,
         title: '系统路由',
-        redirect: '/sys/home',
+        redirect: '/home',
         routes: [
             {
-                path: '/sys/home',
+                path: '/home',
                 title: '首页',
                 component: Home,
             },
             {
-                path: '/sys/order',
+                path: '/order',
                 component: MenuLayout,
                 pathName: 'order-manage',
                 redirect: '/sys/order/list',
                 title: '订单管理',
                 routes: [
                     {
-                        path: '/sys/order/list',
+                        path: '/order/list',
                         pathName: 'order-list',
                         component: OrderList,
                         title: '订单列表',
                         icon: 'table'
                     },
                     {
-                        path: '/sys/order/product',
+                        path: '/order/product',
                         pathName: 'product-manage',
                         component: ThirdLevelComponent,
                         title: '生产管理',
                         icon: 'user',
                     },
                     {
-                        path: '/sys/order/returnGoods',
+                        path: '/order/returnGoods',
                         pathName: 'return-goods',
                         component: ReturnGoods,
                         title: '退货管理',

@@ -77,7 +77,7 @@ const TableData = ({
         fontSize: "40px"
     };
     return (
-        <div style={{ background: 'white' }}>
+        <div style={{ background: 'white'}}>
             {isHeader &&
                 <HeaderSearch
                     form={form}

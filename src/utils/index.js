@@ -8,6 +8,5 @@ export const formateDate = time => {
 export const filterRoutes = pathname => {
     let pathSnippets = pathname.split('/').filter(path => path)
     let paths = pathSnippets.map((path, index) => `/${pathSnippets.slice(0, index + 1).join('/')}`)
-    paths.splice(0, 1)
     return paths
 }

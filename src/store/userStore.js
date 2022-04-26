@@ -71,7 +71,7 @@ const userStore = create((set, get) => ({
                 setLoading(false)
                 cache.setVal("token", auth_token)
                 get().userInfo(user_id)
-                // window.location.href = '/sys/home'
+                window.location.href = '/home'
             }).catch(e => {
                 get().captchas();
                 setLoading(false);
