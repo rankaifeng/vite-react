@@ -10,9 +10,48 @@ import create from 'zustand'
 import { userLogin } from '@/api/globApi';
 import cache from '@/utils/cache'
 import loadingStore from './loadingStore';
+import { getIdentifytcode, getCaptchas, getVersion } from '../api/globApi';
 import { message } from 'antd';
 const userStore = create((set, get) => ({
-    isToken: null,
+    isCode: false,//是否需要获取验证码
+    captchaKey: '',//验证码key值
+    version: '',//版本号
+    codeImgUrl: '',//验证码图片
+
+    /**
+     * 是否需要验证码
+     */
+    identifytcode: () => {
+        getIdentifytcode().then(res => {
+            const { config_value } = res;
+            if (config_value === 'yes') {
+                set({ isCode: true })
+                get().captchas();
+            }
+        })
+    },
+    /**
+     * 获取验证码
+     */
+    captchas: () => {
+        getCaptchas().then(res => {
+            const { captcha_key, url } = res;
+            set({
+                captchaKey: captcha_key,
+                codeImgUrl: url
+            })
+        })
+    },
+    /**
+     * 获取版本号
+     */
+    versionNumber: () => {
+        getVersion().then(res => set({ version: res.version }))
+    },
+    /**
+     * 用户登录
+     * @param {*} data 
+     */
     userLogin: data => {
         const { setLoading } = loadingStore.getState();
         setLoading(true)

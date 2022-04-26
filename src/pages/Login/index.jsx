@@ -7,7 +7,7 @@
  * @FilePath: \todo-tse:\react-demo\vite-react\src\pages\Login\index.jsx
  */
 import { Button, Form, Input } from "antd";
-import React, { useState } from "react"
+import React, { useEffect } from "react"
 import userStore from "../../store/userStore";
 import loadingStore from "../../store/loadingStore";
 import { Redirect } from 'react-router-dom'
@@ -16,17 +16,37 @@ import { UserOutlined, LockOutlined, KeyOutlined } from '@ant-design/icons';
 import './index.less'
 const UserLogin = () => {
 
-    const { userLogin } = userStore.getState();
-    const { loading } = loadingStore.getState();
-    const [isCode, setCode] = useState(true)
+    const { loading } = loadingStore(state => ({ ...state }));
+
+    const {
+        userLogin,//登录
+        identifytcode,//获取是否需要验证码
+        captchaKey,//验证码key值
+        codeImgUrl,//验证码图片
+        captchas,//获取验证码
+        isCode,//是否需要验证码标识
+        version,//版本号
+        versionNumber//获取版本号
+    } = userStore(state => ({ ...state }));
+
+    useEffect(() => {
+
+        identifytcode();
+
+        versionNumber();
+
+    }, [])
+
     const handleLogin = values => {
-        userLogin({ ...values, source: 'screen' })
+        userLogin(isCode ? { ...values, captcha_key: captchaKey } : values)
     }
+
     if (cache.getVal('token')) {
         return (
             <Redirect to="/sys/home" />
         )
     }
+
     return (
         <div className="wrapper-login">
             <header className="login-header">资产管理应用综合平台</header>
@@ -66,17 +86,29 @@ const UserLogin = () => {
 
                             {isCode &&
                                 <div className="login-code">
-                                    <Form.Item name="code">
+                                    <Form.Item name="captcha_code"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: '请输入验证码!',
+                                            }]}>
                                         <Input
                                             size="large"
                                             prefix={<KeyOutlined className="site-form-item-icon" />}
                                             style={{ width: '200px', color: 'black' }}
                                             placeholder="请输入校验码" />
                                     </Form.Item>
-                                    <div className="code-img">222</div>
+                                    <div className="code-img">
+                                        {codeImgUrl ? <img src={codeImgUrl} alt="" onClick={captchas} /> :
+                                            <div
+                                                onClick={captchas}
+                                                className="code-text">
+                                                验证码获取失败
+                                            </div>
+                                        }
+                                    </div>
                                 </div>
                             }
-
                             <Form.Item>
                                 <Button
                                     loading={loading}
@@ -90,6 +122,7 @@ const UserLogin = () => {
                             </Form.Item>
                         </Form>
                     </div>
+                    <div className="version">版本号：{version}</div>
                 </div>
             </div>
         </div>

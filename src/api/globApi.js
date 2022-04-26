@@ -12,14 +12,32 @@ export const URL_ARRAY = {
     "ACTION_DEVICE": 'devices',//设备接口
     "ACTION_CONSTRUCTION": 'constructions'//单位接口
 }
-
+/**
+ * 用户登录
+ * @param {*} data 
+ * @returns 
+ */
 export const userLogin = data => {
     return post('authenticate', {
         ...data,
         source: 'screen'
     })
 }
-
+/**
+ * 是否需要验证码
+ * @returns 
+ */
+export const getIdentifytcode = () => get("systemconfigs/get_identifytcode")
+/**
+ * 获取验证码
+ * @returns 
+ */
+export const getCaptchas = () => get("captchas");
+/**
+ * 获取版本号
+ * @returns 
+ */
+export const getVersion = () => get("systemconfigs/get_version")
 /**
  * 新增 编辑
  * @param {*} url 路径 
