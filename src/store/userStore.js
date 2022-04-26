@@ -10,7 +10,7 @@ import create from 'zustand'
 import { userLogin } from '@/api/globApi';
 import cache from '@/utils/cache'
 import loadingStore from './loadingStore';
-import { getIdentifytcode, getCaptchas, getVersion } from '../api/globApi';
+import { getIdentifytcode, getCaptchas, getVersion, getUserInfo } from '../api/globApi';
 import { message } from 'antd';
 const userStore = create((set, get) => ({
     isCode: false,//是否需要获取验证码
@@ -49,6 +49,16 @@ const userStore = create((set, get) => ({
         getVersion().then(res => set({ version: res.version }))
     },
     /**
+     * 获取用户信息
+     * @param {*} userId 
+     */
+    userInfo: userId => {
+        getUserInfo().then(res => {
+            let newInfo = { ...res, userId }
+            cache.setVal("userInfo", newInfo)
+        })
+    },
+    /**
      * 用户登录
      * @param {*} data 
      */
@@ -57,11 +67,13 @@ const userStore = create((set, get) => ({
         setLoading(true)
         userLogin(data)
             .then(res => {
+                const { auth_token, user_id } = res;
                 setLoading(false)
-                cache.setVal("token", res.auth_token)
-                window.location.href = '/sys/home';
+                cache.setVal("token", auth_token)
+                get().userInfo(user_id)
+                // window.location.href = '/sys/home'
             }).catch(e => {
-                message.error("登录失败");
+                get().captchas();
                 setLoading(false);
             })
     },

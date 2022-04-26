@@ -40,7 +40,7 @@ const UserLogin = () => {
     const handleLogin = values => {
         userLogin(isCode ? { ...values, captcha_key: captchaKey } : values)
     }
-
+    
     if (cache.getVal('token')) {
         return (
             <Redirect to="/sys/home" />
@@ -124,6 +124,7 @@ const UserLogin = () => {
                     </div>
                     <div className="version">版本号：{version}</div>
                 </div>
+               
             </div>
         </div>
     )

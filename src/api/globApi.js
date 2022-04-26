@@ -24,6 +24,11 @@ export const userLogin = data => {
     })
 }
 /**
+ * 获取用户信息
+ * @returns 
+ */
+export const getUserInfo = () => get("users/user_info")
+/**
  * 是否需要验证码
  * @returns 
  */
